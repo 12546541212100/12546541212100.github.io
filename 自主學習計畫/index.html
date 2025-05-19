@@ -112,15 +112,49 @@
     </head>
     
     <body id="page-top">
-        <audio id="bg-music" src="https://www.youtube.com/watch?v=tWzZhZU3sOI" autoplay loop></audio>
-        <script>
-    // 確保使用者互動後再播放（避免瀏覽器封鎖自動播放）
-    document.addEventListener('click', function () {
-      const music = document.getElementById('bg-music');
-      music.play().catch(error => {
-        console.log("無法自動播放音樂：", error);
-      });
-    }, { once: true }); // 一次性觸發
+         <style>
+    #music-control {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+  <h1>歡迎來到我的網站</h1>
+
+  <!-- 音樂播放器 -->
+  <audio id="bg-music" src="music.mp3" loop></audio>
+
+  <!-- 控制按鈕 -->
+  <button id="music-control">播放音樂</button>
+
+  <script>
+    const music = document.getElementById('bg-music');
+    const button = document.getElementById('music-control');
+    let isPlaying = false;
+
+    // 按鈕點擊控制播放與暫停
+    button.addEventListener('click', function () {
+      if (isPlaying) {
+        music.pause();
+        button.textContent = '播放音樂';
+      } else {
+        music.play().catch(err => {
+          console.log("播放失敗：", err);
+        });
+        button.textContent = '暫停音樂';
+      }
+      isPlaying = !isPlaying;
+    });
   </script>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
