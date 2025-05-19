@@ -131,26 +131,34 @@
 <body>
   
 
-  <!-- 音樂播放器 -->
- <audio id="bg-music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop></audio>
+ <!-- iframe 播放器，預設隱藏 -->
+  <div id="iframe-container" style="display: none;">
+    <iframe id="yt-player" width="0" height="0"
+      src="https://www.youtube.com/watch?v=tWzZhZU3sOI&t=16s"
+      frameborder="0"
+      allow="autoplay"
+      allowfullscreen>
+    </iframe>
+  </div>
 
   <!-- 控制按鈕 -->
   <button id="music-control">播放音樂</button>
 
   <script>
-    const music = document.getElementById('bg-music');
     const button = document.getElementById('music-control');
+    const iframeContainer = document.getElementById('iframe-container');
     let isPlaying = false;
 
-    // 按鈕點擊控制播放與暫停
-    button.addEventListener('click', function () {
+    button.addEventListener('click', () => {
       if (isPlaying) {
-        music.pause();
+        iframeContainer.style.display = 'none';  // 隱藏 iframe = 停止播放
+        // 強制重設 src 來停止音樂（因為 iframe 沒有 pause 方法）
+        const oldIframe = document.getElementById('yt-player');
+        const newIframe = oldIframe.cloneNode();
+        oldIframe.parentNode.replaceChild(newIframe, oldIframe);
         button.textContent = '播放音樂';
       } else {
-        music.play().catch(err => {
-          console.log("播放失敗：", err);
-        });
+        iframeContainer.style.display = 'block'; // 顯示 iframe = 播放
         button.textContent = '暫停音樂';
       }
       isPlaying = !isPlaying;
