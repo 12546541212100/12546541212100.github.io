@@ -112,6 +112,16 @@
     </head>
     
     <body id="page-top">
+        <audio id="bg-music" src="https://www.youtube.com/watch?v=tWzZhZU3sOI" autoplay loop></audio>
+        <script>
+    // 確保使用者互動後再播放（避免瀏覽器封鎖自動播放）
+    document.addEventListener('click', function () {
+      const music = document.getElementById('bg-music');
+      music.play().catch(error => {
+        console.log("無法自動播放音樂：", error);
+      });
+    }, { once: true }); // 一次性觸發
+  </script>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
             <a class="navbar-brand js-scroll-trigger" href="#page-top">
